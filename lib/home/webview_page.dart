@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/res/colors.dart';
 import 'package:flutter_demo/res/gaps.dart';
 import 'package:flutter_demo/util/device_utils.dart';
+import 'package:flutter_demo/util/theme_utils.dart';
 import 'package:flutter_demo/widgets/my_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -36,6 +38,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = context.isDark;
+
     return FutureBuilder<WebViewController>(
         future: _controller.future,
         builder: (context, snapshot) {
@@ -75,6 +79,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     LinearProgressIndicator(
                       value: _progressValue / 100,
                       backgroundColor: Colors.transparent,
+                      color: isDark ? Colours.dark_app_main : Colours.app_main,
                       minHeight: 2,
                     )
                   else

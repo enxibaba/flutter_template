@@ -99,9 +99,9 @@ class _SplashPageState extends State<SplashPage> {
         color: context.backgroundColor,
         child: _status == 0
             ? const FractionallyAlignedSizedBox(
-                heightFactor: 0.3,
-                widthFactor: 0.33,
-                leftFactor: 0.33,
+                heightFactor: 0.2,
+                widthFactor: 0.2,
+                leftFactor: 0.4,
                 bottomFactor: 0,
                 child: LoadAssetImage('logo'))
             : Swiper(

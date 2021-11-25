@@ -15,7 +15,7 @@ class MyButton extends StatelessWidget {
     this.minHeight = 48.0,
     this.minWidth = double.infinity,
     this.padding = const EdgeInsets.symmetric(horizontal: 16.0),
-    this.radius = 2.0,
+    this.radius = 24.0,
     this.side = BorderSide.none,
     required this.onPressed,
   }) : super(key: key);
@@ -61,8 +61,8 @@ class MyButton extends StatelessWidget {
             if (states.contains(MaterialState.disabled)) {
               return disabledBackgroundColor ??
                   (isDark
-                      ? Colours.dark_button_disabled
-                      : Colours.button_disabled);
+                      ? Colours.dark_app_main.withAlpha(70)
+                      : Colours.app_main.withAlpha(70));
             }
             return backgroundColor ??
                 (isDark ? Colours.dark_app_main : Colours.app_main);
