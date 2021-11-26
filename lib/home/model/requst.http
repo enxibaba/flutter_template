@@ -1,0 +1,9 @@
+POST https://devdoctor.holoalpha.com/webapp/v1/Consult/homeStatus
+Content-Type: application/x-www-form-urlencoded
+accesstoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb2N0b3JfaWQiOiJ5d29pdXdraGJjIiwiZG9jdG9yTmFtZSI6Ilx1NGY1OVx1OGZkMFx1ODJiMyIsImhvc3BpdGFsSWQiOiJ2cG5yc3RibnZoIiwiZG9jdG9yVGl0bGUiOiJcdTRlM2JcdTZjYmJcdTUzM2JcdTVlMDgiLCJob3NwaXRhbE5hbWUiOiJcdTZiNjZcdTZjNDlcdTVlMDJcdTdiMmNcdTRlMDBcdTUzM2JcdTk2NjIiLCJkZXB0TmFtZSI6Ilx1NTk4N1x1NGVhN1x1NzlkMSIsInZpZGVvSWQiOiI1MTAwMDAwMDAwNDE0NyIsInRva2VuIjoiNjE0MzA4MjI3OWU5NjMxZjgzODAyNGZhNzA5ZWI1YmRkMzJkZDBkNCJ9.TUY60vKDOgzV0louQH0BrkrRMm8031S887QXGDyKYhE
+devicetype: ios
+User-Agent: LoveAD/1.19.0 (com.imcdCloud.LoveAD; build:1; iOS 15.0.0) Alamofire/5.4.2
+
+{
+   
+}
