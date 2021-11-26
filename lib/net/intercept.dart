@@ -1,10 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_demo/res/constant.dart';
+import 'package:flutter_demo/setting/widgets/exit_dialog.dart';
 import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/log_utils.dart';
 import 'package:flutter_demo/util/other_utils.dart';
+import 'package:flutter_demo/util/userdefault_utils.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -14,78 +21,33 @@ import 'error_handle.dart';
 class AuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final String accessToken = SpUtil.getString(Constant.accessToken).nullSafe;
+    final String accessToken = UserDefaultUtils.token.nullSafe;
     if (accessToken.isNotEmpty) {
-      options.headers['Authorization'] = 'token $accessToken';
+      options.headers['accesstoken'] = accessToken;
     }
     if (!Device.isWeb) {
-      // https://developer.github.com/v3/#user-agent-required
       options.headers['User-Agent'] = 'Mozilla/5.0';
     }
+    options.headers['devicetype'] = Device.channelString;
+
+    if (options.contentType!.isEmpty) {
+      options.headers['Content-type'] = 'application/json';
+    }
+
     super.onRequest(options, handler);
   }
 }
 
 class TokenInterceptor extends Interceptor {
-  Dio? _tokenDio;
-
-  Future<String?> getToken() async {
-    final Map<String, String> params = <String, String>{};
-    params['refresh_token'] = SpUtil.getString(Constant.refreshToken).nullSafe;
-    try {
-      _tokenDio ??= Dio();
-      _tokenDio!.options = DioUtils.instance.dio.options;
-      final Response response =
-          await _tokenDio!.post<dynamic>('lgn/refreshToken', data: params);
-      if (response.statusCode == ExceptionHandle.success) {
-        return (json.decode(response.data.toString())
-            as Map<String, dynamic>)['access_token'] as String;
-      }
-    } catch (e) {
-      Log.e('刷新Token失败！');
-    }
-    return null;
-  }
-
   @override
   Future<void> onResponse(
       Response response, ResponseInterceptorHandler handler) async {
     //401代表token过期
-    if (response.statusCode == ExceptionHandle.unauthorized) {
-      Log.d('-----------自动刷新Token------------');
-      final Dio dio = DioUtils.instance.dio;
-      dio.lock();
-      final String? accessToken = await getToken(); // 获取新的accessToken
-      Log.e('-----------NewToken: $accessToken ------------');
-      SpUtil.putString(Constant.accessToken, accessToken.nullSafe);
-      dio.unlock();
-
-      if (accessToken != null) {
-        // 重新请求失败接口
-        final RequestOptions request = response.requestOptions;
-        request.headers['Authorization'] = 'Bearer $accessToken';
-
-        final Options options = Options(
-          headers: request.headers,
-          method: request.method,
-        );
-
-        try {
-          Log.e('----------- 重新请求接口 ------------');
-
-          /// 避免重复执行拦截器，使用tokenDio
-          final Response response = await _tokenDio!.request<dynamic>(
-            request.path,
-            data: request.data,
-            queryParameters: request.queryParameters,
-            cancelToken: request.cancelToken,
-            options: options,
-            onReceiveProgress: request.onReceiveProgress,
-          );
-          return handler.next(response);
-        } on DioError catch (e) {
-          return handler.reject(e);
-        }
+    if (response.statusCode == ExceptionHandle.token_invalid) {
+      UserDefaultUtils.removeAllInfo();
+      final BuildContext? context = Get.context;
+      if (context != null) {
+        showDialog<void>(context: context, builder: (_) => const ExitDialog());
       }
     }
     super.onResponse(response, handler);
@@ -148,7 +110,7 @@ class AdapterInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    final Response r = adapterData(response);
+    final Response r = response;
     super.onResponse(r, handler);
   }
 

@@ -10,6 +10,7 @@ class LoginRouter implements IRouterProvider {
   void initRouter(FluroRouter router) {
     router.define(loginPage,
         handler: Handler(handlerFunc: (_, __) => const LoginPage()));
-    router.define(smsLoginPage, handler: Handler(handlerFunc: (_, __) => const SmsLoginPage()));
+    router.define(smsLoginPage,
+        handler: Handler(handlerFunc: (_, __) => const SmsLoginPage()));
   }
 }

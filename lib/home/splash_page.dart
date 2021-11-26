@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/login/login_router.dart';
 import 'package:flutter_demo/res/constant.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
-import 'package:flutter_demo/util/app_navigator.dart';
+import 'package:flutter_demo/routers/routers.dart';
 import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/image_utils.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
+import 'package:flutter_demo/util/userdefault_utils.dart';
 import 'package:flutter_demo/widgets/load_image.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -84,9 +85,18 @@ class _SplashPageState extends State<SplashPage> {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();
       } else {
-        _goLogin();
+        String? token = UserDefaultUtils.token;
+        if (token != null && !token.isEmpty) {
+          _goHome();
+        } else {
+          _goLogin();
+        }
       }
     });
+  }
+
+  void _goHome() {
+    NavigatorUtils.push(context, Routes.home, replace: true);
   }
 
   void _goLogin() {

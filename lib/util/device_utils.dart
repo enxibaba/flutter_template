@@ -16,6 +16,16 @@ class Device {
   static bool get isFuchsia => !isWeb && Platform.isFuchsia;
   static bool get isIOS => !isWeb && Platform.isIOS;
 
+  static String get channelString {
+    if (isIOS) {
+      return 'ios';
+    } else if (isAndroid) {
+      return 'android';
+    } else {
+      return 'isWeb';
+    }
+  }
+
   static late AndroidDeviceInfo _androidInfo;
 
   static Future<void> initDeviceInfo() async {

@@ -29,15 +29,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # GetX工具 https://pub.dev/packages/get/install
+  get:
+    ^4.3.8
     # 去除网页URL中的“#”(hash) https://flutter.cn/docs/development/ui/navigation/url-strategies
   url_strategy: 0.2.0
-  # Localization https://github.com/dart-lang/intl
-  intl: ^0.17.0
-  # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
-  oktoast: ^3.1.5
+  # Loading插件 https://pub.dev/packages/flutter_easyloading
+  flutter_easyloading: ^3.0.3
   # 网络库 https://github.com/flutterchina/dio
   dio: ^4.0.1
+  # JSON解析 https://pub.dev/packages/json_serializable
+  json_serializable: ^6.0.1
+  json_annotation: ^4.3.0
   # https://github.com/ReactiveX/rxdart
   rxdart: ^0.27.2
   # Dart 常用工具类库 https://github.com/Sky24n/common_utils
@@ -78,11 +81,6 @@ dependencies:
   device_info_plus: 3.1.1
   # 改变桌面端窗口大小(MacOS/Linux/Windows) https://github.com/mix1009/desktop_window
   desktop_window: 0.4.0
-  # 高德2D地图插件（支持Web） https://github.com/simplezhli/flutter_2d_amap
-  flutter_2d_amap:
-    git:
-      ref: '02a0be19'
-      url: 'https://github.com/simplezhli/flutter_2d_amap.git'
   # demo 用到的库
   # 刮刮卡 https://github.com/vintage/scratcher
   scratcher: ^2.1.0
@@ -97,6 +95,7 @@ dependencies:
 #  convert: ^3.0.0
 
 dev_dependencies:
+  build_runner: ^2.1.5
   # Widget测试
   flutter_test:
     sdk: flutter

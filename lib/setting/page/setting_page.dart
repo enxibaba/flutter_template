@@ -4,7 +4,6 @@ import 'package:flutter_demo/res/resources.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
 import 'package:flutter_demo/setting/widgets/exit_dialog.dart';
 import 'package:flutter_demo/setting/widgets/update_dialog.dart';
-import 'package:flutter_demo/util/app_navigator.dart';
 import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/toast_utils.dart';
 import 'package:flutter_demo/widgets/click_item.dart';

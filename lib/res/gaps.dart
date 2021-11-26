@@ -5,7 +5,6 @@ import 'package:flutter_demo/res/resources.dart';
 /// 间隔
 /// 官方做法：https://github.com/flutter/flutter/pull/54394
 class Gaps {
-
   /// 水平间隔
   static const Widget hGap4 = SizedBox(width: Dimens.gap_dp4);
   static const Widget hGap5 = SizedBox(width: Dimens.gap_dp5);
@@ -44,6 +43,6 @@ class Gaps {
 
   static const Widget empty = SizedBox.shrink();
 
-/// 补充一种空Widget实现 https://github.com/letsar/nil
-/// https://github.com/flutter/flutter/issues/78159
+  /// 补充一种空Widget实现 https://github.com/letsar/nil
+  /// https://github.com/flutter/flutter/issues/78159
 }

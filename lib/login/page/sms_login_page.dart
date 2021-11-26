@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/login/widgets/my_text_field.dart';
 import 'package:flutter_demo/login/widgets/sms_tips_alert.dart';
 import 'package:flutter_demo/res/colors.dart';
+import 'package:flutter_demo/res/constant.dart';
 import 'package:flutter_demo/res/gaps.dart';
 import 'package:flutter_demo/res/styles.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
@@ -15,8 +16,6 @@ import 'package:flutter_demo/util/toast_utils.dart';
 import 'package:flutter_demo/widgets/my_app_bar.dart';
 import 'package:flutter_demo/widgets/my_button.dart';
 import 'package:flutter_demo/widgets/my_scroll_view.dart';
-
-import '../login_router.dart';
 
 class SmsLoginPage extends StatefulWidget {
   const SmsLoginPage({Key? key}) : super(key: key);
@@ -102,15 +101,15 @@ class _SmsLoginPageState extends State<SmsLoginPage>
             text: '《用户协议》',
             style: TextStyle(color: mainColor),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => NavigatorUtils.goWebViewPage(context, '用户协议',
-                  'https://zyy.holoalpha.com/hybrid/agreements/userAgreement/iOS')),
+              ..onTap = () => NavigatorUtils.goWebViewPage(
+                  context, '用户协议', Constant.userAgreement)),
         TextSpan(text: '及', style: TextStyle(color: textColor)),
         TextSpan(
             text: '《隐私政策》',
             style: TextStyle(color: mainColor),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => NavigatorUtils.goWebViewPage(context, '隐私政策',
-                  'https://zyy.holoalpha.com/hybrid/agreements/privacyAgreement/iOS'))
+              ..onTap = () => NavigatorUtils.goWebViewPage(
+                  context, '隐私政策', Constant.privacyAgreement))
       ], style: const TextStyle(fontSize: 12)),
     );
   }

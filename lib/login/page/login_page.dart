@@ -1,16 +1,21 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo/login/model/user_entity.dart';
 import 'package:flutter_demo/login/widgets/my_text_field.dart';
+import 'package:flutter_demo/net/net.dart';
 import 'package:flutter_demo/res/constant.dart';
 import 'package:flutter_demo/res/resources.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
-import 'package:flutter_demo/util/app_navigator.dart';
+import 'package:flutter_demo/routers/routers.dart';
 import 'package:flutter_demo/util/change_notifier_manage.dart';
 import 'package:flutter_demo/util/log_utils.dart';
 import 'package:flutter_demo/util/other_utils.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
+import 'package:flutter_demo/util/toast_utils.dart';
+import 'package:flutter_demo/util/userdefault_utils.dart';
 import 'package:flutter_demo/widgets/my_app_bar.dart';
 import 'package:flutter_demo/widgets/my_button.dart';
 import 'package:flutter_demo/widgets/my_scroll_view.dart';
@@ -77,7 +82,24 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  void _login() {}
+  Future<void> _login() async {
+    final String name = _nameController.text;
+    final String password = _passwordController.text;
+    Toast.showLoading('登录中');
+    await DioUtils.instance.requestFormNetwork<UserEntity>(
+        Method.post, HttpApi.pwdLogin,
+        params: {'tel': name, 'password': password}, onSuccess: (data) async {
+      if (data != null) {
+        UserDefaultUtils.synchInfo(data);
+        Toast.dismiss();
+        NavigatorUtils.push(context, Routes.home, replace: true);
+      } else {
+        Toast.dismiss();
+      }
+    }, onError: (_, __) {
+      Toast.dismiss();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,15 +128,15 @@ class _LoginPageState extends State<LoginPage>
             text: '《用户协议》',
             style: TextStyle(color: mainColor),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => NavigatorUtils.goWebViewPage(context, '用户协议',
-                  'https://zyy.holoalpha.com/hybrid/agreements/userAgreement/iOS')),
+              ..onTap = () => NavigatorUtils.goWebViewPage(
+                  context, '用户协议', Constant.userAgreement)),
         TextSpan(text: '及', style: TextStyle(color: textColor)),
         TextSpan(
             text: '《隐私政策》',
             style: TextStyle(color: mainColor),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => NavigatorUtils.goWebViewPage(context, '隐私政策',
-                  'https://zyy.holoalpha.com/hybrid/agreements/privacyAgreement/iOS'))
+              ..onTap = () => NavigatorUtils.goWebViewPage(
+                  context, '隐私政策', Constant.privacyAgreement))
       ], style: const TextStyle(fontSize: 12)),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/home/splash_page.dart';
 import 'package:flutter_demo/net/dio_utils.dart';
@@ -13,7 +12,8 @@ import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/handle_error_utils.dart';
 import 'package:flutter_demo/util/log_utils.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:flutter_demo/widgets/custom_animation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:sp_util/sp_util.dart';
@@ -43,8 +43,27 @@ Future<void> main() async {
   /// 隐藏状态栏。为启动页、引导页设置。完成后修改回显示状态栏。
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom]);
-  // TODO(weilu): 启动体验不佳。状态栏、导航栏在冷启动开始的一瞬间为黑色，且无法通过隐藏、修改颜色等方式进行处理。。。
+  // TODO(ZhouJia): 启动体验不佳。状态栏、导航栏在冷启动开始的一瞬间为黑色，且无法通过隐藏、修改颜色等方式进行处理。。。
   // 相关问题跟踪：https://github.com/flutter/flutter/issues/73351
+
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false
+    ..customAnimation = CustomAnimation();
 }
 
 class MyApp extends StatelessWidget {
@@ -76,7 +95,7 @@ class MyApp extends StatelessWidget {
     /// 适配数据(根据自己的数据结构，可自行选择添加)
     interceptors.add(AdapterInterceptor());
     configDio(
-      baseUrl: 'https://api.github.com/',
+      baseUrl: Constant.baseUrl,
       interceptors: interceptors,
     );
   }
@@ -105,7 +124,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget app = MultiProvider(
+    return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
       child: Consumer<ThemeProvider>(
         builder: (_, ThemeProvider provider, __) {
@@ -113,18 +132,25 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-
-    /// Toast 配置
-    return OKToast(
-        child: app,
-        backgroundColor: Colors.black54,
-        textPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        radius: 20.0,
-        position: ToastPosition.bottom);
   }
 
   Widget _buildMaterialApp(ThemeProvider provider) {
+    // ignore: prefer_final_locals
+    TransitionBuilder loadingBuilder() =>
+        (BuildContext context, Widget? child) {
+          /// 仅针对安卓
+          if (Device.isAndroid) {
+            /// 切换深色模式会触发此方法，这里设置导航栏颜色
+            ThemeUtils.setSystemNavigationBar(provider.getThemeMode());
+          }
+
+          /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: child!,
+          );
+        };
+
     return MaterialApp(
       title: 'Flutter Deer',
       // showPerformanceOverlay: true, //显示性能标签
@@ -139,19 +165,8 @@ class MyApp extends StatelessWidget {
       home: home ?? const SplashPage(),
       onGenerateRoute: Routes.router.generator,
       navigatorKey: navigatorKey,
-      builder: (BuildContext context, Widget? child) {
-        /// 仅针对安卓
-        if (Device.isAndroid) {
-          /// 切换深色模式会触发此方法，这里设置导航栏颜色
-          ThemeUtils.setSystemNavigationBar(provider.getThemeMode());
-        }
 
-        /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          child: child!,
-        );
-      },
+      builder: EasyLoading.init(builder: loadingBuilder()),
 
       /// 因为使用了fluro，这里设置主要针对Web
       onUnknownRoute: (_) {

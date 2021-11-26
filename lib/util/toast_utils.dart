@@ -1,16 +1,19 @@
-import 'package:oktoast/oktoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 /// Toast工具类
 class Toast {
-  static void show(String? msg, {int duration = 2000}) {
+  static void show(String? msg) {
     if (msg == null) {
       return;
     }
-    showToast(msg,
-        duration: Duration(milliseconds: duration), dismissOtherToast: true);
+    EasyLoading.showToast(msg);
   }
 
-  static void cancelToast() {
-    dismissAllToast();
+  static void dismiss() {
+    EasyLoading.dismiss();
+  }
+
+  static void showLoading(String? msg) {
+    EasyLoading.show(status: msg ?? '加载中');
   }
 }

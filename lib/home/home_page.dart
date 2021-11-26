@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/home/provider/home_provider.dart';
 import 'package:flutter_demo/res/resources.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
-import 'package:flutter_demo/widgets/load_image.dart';
 import 'package:flutter_demo/widgets/double_tap_back_exit_app.dart';
+import 'package:flutter_demo/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {

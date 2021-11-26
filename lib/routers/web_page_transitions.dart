@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 class NoTransitionsOnWeb extends PageTransitionsTheme {
   @override
   Widget buildTransitions<T>(
-      route,
-      context,
-      animation,
-      secondaryAnimation,
-      child,
-      ) {
+    route,
+    context,
+    animation,
+    secondaryAnimation,
+    child,
+  ) {
     if (kIsWeb) {
       return child;
     }

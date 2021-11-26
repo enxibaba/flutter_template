@@ -75,7 +75,7 @@ class BaseDialog extends StatelessWidget {
       context: context,
       child: Center(
         child: SizedBox(
-          width: 270.0,
+          width: 270,
           child: content,
         ),
       ),
