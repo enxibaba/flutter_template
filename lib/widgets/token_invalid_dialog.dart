@@ -4,16 +4,16 @@ import 'package:flutter_demo/res/styles.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
 import 'package:flutter_demo/widgets/base_dialog.dart';
 
-class ExitDialog extends StatefulWidget {
-  const ExitDialog({
+class TokenInvalidDialog extends StatefulWidget {
+  const TokenInvalidDialog({
     Key? key,
   }) : super(key: key);
 
   @override
-  _ExitDialog createState() => _ExitDialog();
+  _TokenInvalidDialog createState() => _TokenInvalidDialog();
 }
 
-class _ExitDialog extends State<ExitDialog> {
+class _TokenInvalidDialog extends State<TokenInvalidDialog> {
   @override
   Widget build(BuildContext context) {
     return BaseDialog(

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_demo/login/model/user_entity.dart';
+import 'package:flutter_demo/login/model/user_info_entity.dart';
 import 'package:flutter_demo/login/widgets/my_text_field.dart';
 import 'package:flutter_demo/net/net.dart';
 import 'package:flutter_demo/res/constant.dart';
@@ -86,11 +86,12 @@ class _LoginPageState extends State<LoginPage>
     final String name = _nameController.text;
     final String password = _passwordController.text;
     Toast.showLoading('登录中');
-    await DioUtils.instance.requestFormNetwork<UserEntity>(
-        Method.post, HttpApi.pwdLogin,
+    await DioUtils.instance.requestFormNetwork(Method.post, HttpApi.pwdLogin,
         params: {'tel': name, 'password': password}, onSuccess: (data) async {
-      if (data != null) {
-        UserDefaultUtils.synchInfo(data);
+      final UserInfoEntity model = UserInfoEntity.fromJson(data ?? <String, dynamic>{});
+      final UserInfoList? info = model.list;
+      if (info != null) {
+        UserDefaultUtils.synchInfo(info);
         Toast.dismiss();
         NavigatorUtils.push(context, Routes.home, replace: true);
       } else {

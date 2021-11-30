@@ -1,29 +1,30 @@
 import 'package:flustars/flustars.dart';
-import 'package:flutter_demo/login/model/user_entity.dart';
+import 'package:flutter_demo/login/model/user_info_entity.dart';
 import 'package:flutter_demo/res/constant.dart';
 
 class UserDefaultUtils {
-  static void synchInfo(UserEntity info) {
-    final UserModel model = info.list;
-    SpUtil.putString('doctorId', model.docInfo.doctorId);
-    SpUtil.putString('dockerName', model.docInfo.name);
-    SpUtil.putString('dockerTitle', model.docInfo.doctorTitle);
-    SpUtil.putString('netHospitalName', model.docInfo.netHospitalName);
-    SpUtil.putString('netHospitalId', model.docInfo.netHospitalId);
-    SpUtil.putString('netdeptChild', model.docInfo.netdeptChild);
-    SpUtil.putString('netdeptChildId', model.docInfo.netdeptChildId);
-    SpUtil.putString('netdeptName', model.docInfo.netdeptName);
-    SpUtil.putString('netdeptNameId', model.docInfo.netdeptNameId);
-    SpUtil.putString('tel', model.docInfo.tel);
-    SpUtil.putString('openId', model.docInfo.openId);
-    SpUtil.putInt('signStatus', model.docInfo.signStatus);
-    SpUtil.putString('photoDoc', model.docInfo.photoDoc);
-    SpUtil.putString('certNo', model.docInfo.certNo);
-    SpUtil.putInt('messageStatus', model.docInfo.messageStatus);
-    SpUtil.putInt('firstLogin', model.docInfo.firstLogin);
-    SpUtil.putString('isPass', model.docInfo.isPass);
-    SpUtil.putString(Constant.accessToken, model.loginInfo.token);
-    SpUtil.putString('netEasyToken', model.registerInfo.token);
+  static void synchInfo(UserInfoList model) {
+
+    SpUtil.putString('doctorId', model.docInfo?.doctorId ?? '');
+    SpUtil.putString('dockerName', model.docInfo?.name ?? '');
+    SpUtil.putString('dockerTitle', model.docInfo?.doctorTitle ?? '');
+    SpUtil.putString('netHospitalName', model.docInfo?.nethospitalName ?? '');
+    SpUtil.putString('netHospitalId', model.docInfo?.nethospitalId ?? '');
+    SpUtil.putString('netdeptChild', model.docInfo?.netdeptChild ?? '');
+    SpUtil.putString('netdeptChildId', model.docInfo?.netdeptChildid ?? '');
+    SpUtil.putString('netdeptName', model.docInfo?.netdeptName ?? '');
+    SpUtil.putString('netdeptNameId', model.docInfo?.netdeptNameid ?? '');
+    SpUtil.putString('tel', model.docInfo?.tel ?? '');
+    SpUtil.putString('openId', model.docInfo?.openId ?? '');
+    SpUtil.putInt('signStatus', model.docInfo?.signStatus ?? 0);
+    SpUtil.putString('photoDoc', model.docInfo?.photoDoc ?? '');
+    SpUtil.putString('certNo', model.docInfo?.certNo ?? '');
+    SpUtil.putInt('messageStatus', model.docInfo?.messageStatus ?? 0);
+    SpUtil.putInt('firstLogin', model.docInfo?.firstLogin ?? 0);
+    SpUtil.putString('isPass', model.docInfo?.isPass ?? '');
+    SpUtil.putString(Constant.accessToken, model.loginInfo?.token ?? '');
+    SpUtil.putString('netEasyToken', model.registerInfo?.token ?? '');
+
   }
 
   static void removeAllInfo() {
@@ -39,7 +40,7 @@ class UserDefaultUtils {
   static String? get doctorId => SpUtil.getString('doctorId');
 
   /// 医生姓名
-  static String? get dockerName => SpUtil.getString('dockerName');
+  static String? get dockerName => SpUtil.getString('dockerName', defValue: null);
 
   /// 医生头像
   static String? get photoDoc => SpUtil.getString('photoDoc');

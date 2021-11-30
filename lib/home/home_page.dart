@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/home/provider/home_provider.dart';
 import 'package:flutter_demo/res/resources.dart';
+import 'package:flutter_demo/tab/consultation_room/consultation_room_page.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
 import 'package:flutter_demo/widgets/double_tap_back_exit_app.dart';
 import 'package:flutter_demo/widgets/load_image.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -17,7 +19,7 @@ class _HomeState extends State<Home> with RestorationMixin {
   static const double _imageSize = 25.0;
 
   late List<Widget> _pageList;
-  final List<String> _appBarTitles = ['订单', '商品', '统计', '店铺'];
+  final List<String> _appBarTitles = ['我的诊室', '患者管理', '我的'];
   final PageController _pageController = PageController();
 
   HomeProvider provider = HomeProvider();
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> with RestorationMixin {
   }
 
   void initData() {
-    _pageList = [];
+    _pageList = [const ConsultationRoomPage()];
   }
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
@@ -80,18 +82,6 @@ class _HomeState extends State<Home> with RestorationMixin {
             color: Colours.app_main,
           ),
         ],
-        [
-          LoadAssetImage(
-            'home/icon_shop',
-            width: _imageSize,
-            color: Colours.unselected_item_color,
-          ),
-          LoadAssetImage(
-            'home/icon_shop',
-            width: _imageSize,
-            color: Colours.app_main,
-          ),
-        ]
       ];
       _list = List.generate(_tabImages.length, (i) {
         return BottomNavigationBarItem(
@@ -131,14 +121,6 @@ class _HomeState extends State<Home> with RestorationMixin {
             color: Colours.dark_app_main,
           ),
         ],
-        [
-          LoadAssetImage('home/icon_shop', width: _imageSize),
-          LoadAssetImage(
-            'home/icon_shop',
-            width: _imageSize,
-            color: Colours.dark_app_main,
-          ),
-        ]
       ];
 
       _listDark = List.generate(_tabImagesDark.length, (i) {

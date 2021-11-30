@@ -12,6 +12,7 @@ import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/handle_error_utils.dart';
 import 'package:flutter_demo/util/log_utils.dart';
 import 'package:flutter_demo/util/theme_utils.dart';
+import 'package:flutter_demo/util/toast_utils.dart';
 import 'package:flutter_demo/widgets/custom_animation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -52,8 +53,12 @@ Future<void> main() async {
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..indicatorType = EasyLoadingIndicatorType.ring
     ..loadingStyle = EasyLoadingStyle.dark
+    ..contentPadding = const EdgeInsets.symmetric(
+      vertical: 15.0,
+      horizontal: 30.0,
+    )
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..progressColor = Colors.yellow

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/res/constant.dart';
 import 'package:flutter_demo/setting/widgets/exit_dialog.dart';
 import 'package:flutter_demo/util/device_utils.dart';
 import 'package:flutter_demo/util/log_utils.dart';
@@ -10,12 +9,8 @@ import 'package:flutter_demo/util/other_utils.dart';
 import 'package:flutter_demo/util/userdefault_utils.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_utils/get_utils.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:sprintf/sprintf.dart';
 
-import 'dio_utils.dart';
 import 'error_handle.dart';
 
 class AuthInterceptor extends Interceptor {
@@ -42,14 +37,14 @@ class TokenInterceptor extends Interceptor {
   @override
   Future<void> onResponse(
       Response response, ResponseInterceptorHandler handler) async {
-    //401代表token过期
-    if (response.statusCode == ExceptionHandle.token_invalid) {
-      UserDefaultUtils.removeAllInfo();
-      final BuildContext? context = Get.context;
-      if (context != null) {
-        showDialog<void>(context: context, builder: (_) => const ExitDialog());
-      }
-    }
+    //601代表token过期
+    // if (response.statusCode == ExceptionHandle.token_invalid) {
+    //   UserDefaultUtils.removeAllInfo();
+    //   final BuildContext? context = Get.context;
+    //   if (context != null) {
+    //     showDialog<void>(context: context, builder: (_) => const ExitDialog());
+    //   }
+    // }
     super.onResponse(response, handler);
   }
 }

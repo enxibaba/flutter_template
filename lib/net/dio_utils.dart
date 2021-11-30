@@ -30,8 +30,8 @@ void configDio({
   _interceptors = interceptors ?? _interceptors;
 }
 
-typedef NetSuccessCallback<T> = Function(T data);
-typedef NetSuccessListCallback<T> = Function(List<T> data);
+typedef NetSuccessCallback = Function(Map<String, dynamic>? data);
+// typedef NetSuccessListCallback<T> = Function(List<T> data);
 typedef NetErrorCallback = Function(int code, String msg);
 
 /// @weilu https://github.com/simplezhli
@@ -83,7 +83,7 @@ class DioUtils {
   Dio get dio => _dio;
 
   // 数据返回格式统一，统一处理异常
-  Future<BaseEntity<T>> _request<T>(
+  Future<BaseEntity> _request(
     String method,
     String url, {
     Object? data,
@@ -101,10 +101,10 @@ class DioUtils {
     try {
       final String data = response.data.toString();
       final Map<String, dynamic> _map = parseData(data);
-      return BaseEntity<T>.fromJson(_map);
+      return BaseEntity.fromJson(_map);
     } catch (e) {
       debugPrint(e.toString());
-      return BaseEntity<T>(ExceptionHandle.parse_error, '数据解析错误！', null);
+      return BaseEntity(ExceptionHandle.parse_error, '数据解析错误！', null);
     }
   }
 
@@ -114,10 +114,10 @@ class DioUtils {
     return options;
   }
 
-  Future requestFormNetwork<T>(
+  Future requestFormNetwork(
     Method method,
     String url, {
-    NetSuccessCallback<T?>? onSuccess,
+    NetSuccessCallback? onSuccess,
     NetErrorCallback? onError,
     Object? params,
     Map<String, dynamic>? queryParameters,
@@ -129,14 +129,14 @@ class DioUtils {
     } else {
       options.contentType = 'application/x-www-form-urlencoded';
     }
-    return _request<T>(
+    return _request(
       method.value,
       url,
       data: params,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
-    ).then<void>((BaseEntity<T> result) {
+    ).then<void>((BaseEntity result) {
       if (result.code == ExceptionHandle.success) {
         onSuccess?.call(result.data);
       } else {
@@ -150,24 +150,24 @@ class DioUtils {
     });
   }
 
-  Future requestNetwork<T>(
+  Future requestNetwork(
     Method method,
     String url, {
-    NetSuccessCallback<T?>? onSuccess,
+    NetSuccessCallback? onSuccess,
     NetErrorCallback? onError,
     Object? params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
   }) {
-    return _request<T>(
+    return _request(
       method.value,
       url,
       data: params,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
-    ).then<void>((BaseEntity<T> result) {
+    ).then<void>((BaseEntity result) {
       if (result.code == ExceptionHandle.success) {
         onSuccess?.call(result.data);
       } else {
@@ -182,17 +182,17 @@ class DioUtils {
   }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回 List<T>)
-  void asyncRequestNetwork<T>(
+  void asyncRequestNetwork(
     Method method,
     String url, {
-    NetSuccessCallback<T?>? onSuccess,
+    NetSuccessCallback? onSuccess,
     NetErrorCallback? onError,
     Object? params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
   }) {
-    Stream.fromFuture(_request<T>(
+    Stream.fromFuture(_request(
       method.value,
       url,
       data: params,

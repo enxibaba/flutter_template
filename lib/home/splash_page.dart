@@ -85,8 +85,8 @@ class _SplashPageState extends State<SplashPage> {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();
       } else {
-        String? token = UserDefaultUtils.token;
-        if (token != null && !token.isEmpty) {
+        final String? token = UserDefaultUtils.token;
+        if (token != null && token.isNotEmpty) {
           _goHome();
         } else {
           _goLogin();
