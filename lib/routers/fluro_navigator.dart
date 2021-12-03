@@ -13,7 +13,7 @@ class NavigatorUtils {
       path,
       replace: replace,
       clearStack: clearStack,
-      transition: TransitionType.native,
+      transition: TransitionType.inFromRight,
       routeSettings: RouteSettings(
         arguments: arguments,
       ),
@@ -30,7 +30,7 @@ class NavigatorUtils {
       path,
       replace: replace,
       clearStack: clearStack,
-      transition: TransitionType.native,
+      transition: TransitionType.inFromRight,
       routeSettings: RouteSettings(
         arguments: arguments,
       ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/login/login_router.dart';
+import 'package:flutter_demo/net/nim_message_manage.dart';
 import 'package:flutter_demo/res/constant.dart';
 import 'package:flutter_demo/routers/fluro_navigator.dart';
 import 'package:flutter_demo/routers/routers.dart';
@@ -87,6 +88,7 @@ class _SplashPageState extends State<SplashPage> {
       } else {
         final String? token = UserDefaultUtils.token;
         if (token != null && token.isNotEmpty) {
+          NIMMessageManage.instance.loginNIM();
           _goHome();
         } else {
           _goLogin();

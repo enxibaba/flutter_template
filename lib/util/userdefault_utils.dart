@@ -36,6 +36,9 @@ class UserDefaultUtils {
   /// Token
   static String? get token => SpUtil.getString(Constant.accessToken);
 
+  /// 网易云信Token
+  static String? get netEasyToken => SpUtil.getString('netEasyToken');
+
   /// 医生ID
   static String? get doctorId => SpUtil.getString('doctorId');
 

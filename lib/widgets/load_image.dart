@@ -14,6 +14,7 @@ class LoadImage extends StatelessWidget {
     this.holderImg = 'none',
     this.cacheWidth,
     this.cacheHeight,
+    this.borderRadius = 0,
   }) : super(key: key);
 
   final String image;
@@ -24,13 +25,15 @@ class LoadImage extends StatelessWidget {
   final String holderImg;
   final int? cacheWidth;
   final int? cacheHeight;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
     if (image.isEmpty || image.startsWith('http')) {
       final Widget _image =
           LoadAssetImage(holderImg, height: height, width: width, fit: fit);
-      return CachedNetworkImage(
+
+      final CachedNetworkImage _tmp = CachedNetworkImage(
         imageUrl: image,
         placeholder: (_, __) => _image,
         errorWidget: (_, __, dynamic error) => _image,
@@ -40,8 +43,13 @@ class LoadImage extends StatelessWidget {
         memCacheWidth: cacheWidth,
         memCacheHeight: cacheHeight,
       );
+
+      return (borderRadius > 0)
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius), child: _tmp)
+          : _tmp;
     } else {
-      return LoadAssetImage(
+      final LoadAssetImage _tmp = LoadAssetImage(
         image,
         height: height,
         width: width,
@@ -50,6 +58,11 @@ class LoadImage extends StatelessWidget {
         cacheWidth: cacheWidth,
         cacheHeight: cacheHeight,
       );
+
+      return (borderRadius > 0)
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(borderRadius), child: _tmp)
+          : _tmp;
     }
   }
 }

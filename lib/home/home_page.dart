@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/home/provider/home_provider.dart';
+import 'package:flutter_demo/net/nim_message_manage.dart';
 import 'package:flutter_demo/res/resources.dart';
 import 'package:flutter_demo/tab/consultation_room/consultation_room_page.dart';
 import 'package:flutter_demo/util/theme_utils.dart';

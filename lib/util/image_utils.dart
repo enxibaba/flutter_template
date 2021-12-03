@@ -11,6 +11,10 @@ class ImageUtils {
 
   static String getImgPath(String name,
       {ImageFormat format = ImageFormat.png}) {
+    if (name.startsWith('/')) {
+      /// 处理Wep 图片获取路径错误的问题
+      name = name.substring(1, name.length);
+    }
     return 'assets/images/$name.${format.value}';
   }
 

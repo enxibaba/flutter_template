@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/res/gaps.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
 
@@ -68,7 +69,8 @@ class MyScrollView extends StatelessWidget {
       contents = Column(
         children: <Widget>[
           Expanded(child: contents),
-          SafeArea(child: bottomButton!)
+          SafeArea(child: bottomButton!),
+          Gaps.vGap16
         ],
       );
     }
