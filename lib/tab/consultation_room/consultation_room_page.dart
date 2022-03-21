@@ -13,7 +13,6 @@ import 'package:flutter_demo/util/log_utils.dart';
 import 'package:flutter_demo/util/userdefault_utils.dart';
 import 'package:flutter_demo/widgets/future_builder_widget.dart';
 import 'package:flutter_demo/widgets/load_image.dart';
-import 'package:flutter_demo/widgets/my_scroll_view.dart';
 import 'package:marquee/marquee.dart';
 import 'model/home_status_entity.dart';
 
@@ -110,6 +109,18 @@ class CommonHomeWidget implements NetNormalWidget<HomeStatusEntity> {
             ))
         .toList();
 
+    final bannerWidget =
+        Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+      Container(
+        width: ScreenUtil.getScreenW(context),
+        color: Colours.bg_gray,
+        height: 50,
+      ),
+      const Padding(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: LoadAssetImage('/home/home_banner', format: ImageFormat.webp)),
+    ]);
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -121,37 +132,51 @@ class CommonHomeWidget implements NetNormalWidget<HomeStatusEntity> {
             children: menuList,
           ),
           Gaps.vGap15,
-          const Padding(
-              padding: EdgeInsets.only(left: 16, right: 16),
-              child: LoadAssetImage('/home/home_banner',
-                  format: ImageFormat.webp)),
-          Gaps.vGap5,
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const LoadAssetImage('/home/home_new_notice',
-                    format: ImageFormat.webp, width: 15),
-                Gaps.hGap8,
-                InkWell(
-                  onTap: () => {Log.d('message')},
-                  child: SizedBox(
-                      height: 30,
-                      width: ScreenUtil.getScreenW(context) - 110,
-                      child: Marquee(
-                          key: const Key('MarqueeText'),
-                          text: noticeTitle,
-                          velocity: 50.0)),
+          bannerWidget,
+          Container(
+            width: ScreenUtil.getScreenW(context),
+            color: Colours.bg_gray,
+            height: 6,
+          ),
+          Container(
+            color: Colours.bg_gray,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Container(
+                color: Colors.white,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Gaps.hGap8,
+                    const LoadAssetImage('/home/home_new_notice',
+                        format: ImageFormat.webp, width: 15),
+                    Gaps.hGap8,
+                    InkWell(
+                      onTap: () => {Log.d('message')},
+                      child: SizedBox(
+                          height: 30,
+                          width: ScreenUtil.getScreenW(context) - 110,
+                          child: Marquee(
+                              key: const Key('MarqueeText'),
+                              text: noticeTitle,
+                              velocity: 50.0)),
+                    ),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () =>
+                          {NIMMessageManage.instance.fetchSessionList()},
+                      child: const Text('| 更多', textAlign: TextAlign.right),
+                    )),
+                    Gaps.hGap8,
+                  ],
                 ),
-                Expanded(
-                    child: InkWell(
-                  onTap: () => {NIMMessageManage.instance.fetchSessionList()},
-                  child: const Text('| 更多', textAlign: TextAlign.right),
-                )),
-                Gaps.hGap8,
-              ],
+              ),
             ),
+          ),
+          Container(
+            width: ScreenUtil.getScreenW(context),
+            color: Colours.bg_gray,
+            height: 8,
           ),
           const InquirySessionList()
         ],

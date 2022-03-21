@@ -156,10 +156,19 @@ class NIMMessageManage {
 }
 
 class MessageSession {
-  MessageSession(this._session, this.sessionId, this.unReadCount, this.userName,
-      this.userSex, this.updateTime, this.userImage, this.lastMessage);
+  MessageSession(
+      this._session,
+      this.sessionId,
+      this.unReadCount,
+      this.userName,
+      this.userSex,
+      this.updateTime,
+      this.userImage,
+      this.lastMessage,
+      this.nameImage);
 
   factory MessageSession.latest(NIMSession session) {
+    final String name = session.userName.substring(0, 2);
     return MessageSession(
         session,
         session.sessionId,
@@ -168,7 +177,8 @@ class MessageSession {
         'userSex',
         session.lastMessageTime,
         '/logo',
-        session.lastMessageContent);
+        session.lastMessageContent,
+        name);
   }
 
   @override
@@ -182,6 +192,7 @@ class MessageSession {
   int? updateTime;
   String? userImage;
   String? lastMessage;
+  String? nameImage;
 }
 
 class NIMSession {

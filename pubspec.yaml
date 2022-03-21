@@ -19,6 +19,7 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
+  flutter: ">=2.5.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -44,7 +45,7 @@ dependencies:
   # https://github.com/ReactiveX/rxdart
   rxdart: ^0.27.3
   # Dart 常用工具类库 https://github.com/Sky24n/common_utils
-  common_utils: 2.0.2
+  common_utils: ^2.1.0
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
   flustars: ^2.0.1
   # Flutter 轮播图 https://github.com/lianyagang/flutter_swiper_null_safety
@@ -99,8 +100,6 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  # 单元测试
-  test: ^1.16.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https:/w.dartlang.org/tools/pub/pubspec
@@ -117,15 +116,8 @@ flutter:
     - assets/data/
     - assets/images/
     - assets/images/home/
-    - assets/images/store/
     - assets/images/state/
-    - assets/images/order/
-    - assets/images/order/dark/
     - assets/images/login/
-    - assets/images/goods/
-    - assets/images/shop/
-    - assets/images/account/
-    - assets/images/statistic/
     - assets/lottie/
 
   # To add custom fonts to your application, add a fonts section here,
